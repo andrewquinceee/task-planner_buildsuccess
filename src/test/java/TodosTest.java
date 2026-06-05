@@ -5,7 +5,6 @@ public class TodosTest {
 
     @Test
     public void shouldAddThreeTasksOfDifferentType() {
-        // Создаём задачи разных типов
         SimpleTask simpleTask = new SimpleTask(5, "Позвонить родителям");
 
         String[] subtasks = {"Молоко", "Яйца", "Хлеб"};
@@ -18,17 +17,15 @@ public class TodosTest {
                 "Во вторник после обеда"
         );
 
-        // Добавляем в менеджер
         Todos todos = new Todos();
         todos.add(simpleTask);
         todos.add(epic);
         todos.add(meeting);
 
-        // Ожидаемый и фактический результат
         Task[] expected = {simpleTask, epic, meeting};
         Task[] actual = todos.findAll();
 
-        // ✅ Сравниваем массивы через assertArrayEquals
+        // ✅ Массивы сравниваем целиком
         Assertions.assertArrayEquals(expected, actual);
     }
 
@@ -43,10 +40,9 @@ public class TodosTest {
 
         Task[] result = todos.search("молоко");
 
-        // Проверяем, что нашлась одна задача
-        Assertions.assertEquals(1, result.length);
-        // Проверяем, что это нужная задача (сравниваем по id)
-        Assertions.assertEquals(1, result[0].getId());
+        // ✅ Сравниваем ВЕСЬ массив целиком, а не поэлементно
+        Task[] expected = {task1};
+        Assertions.assertArrayEquals(expected, result);
     }
 
     @Test
@@ -60,8 +56,9 @@ public class TodosTest {
 
         Task[] result = todos.search("Масло");
 
-        Assertions.assertEquals(1, result.length);
-        Assertions.assertEquals(1, result[0].getId());
+        // ✅ Сравниваем ВЕСЬ массив целиком
+        Task[] expected = {epic1};
+        Assertions.assertArrayEquals(expected, result);
     }
 
     @Test
@@ -75,8 +72,9 @@ public class TodosTest {
 
         Task[] result = todos.search("Проект А");
 
-        Assertions.assertEquals(1, result.length);
-        Assertions.assertEquals(1, result[0].getId());
+        // ✅ Сравниваем ВЕСЬ массив целиком
+        Task[] expected = {meeting1};
+        Assertions.assertArrayEquals(expected, result);
     }
 
     @Test
@@ -88,7 +86,8 @@ public class TodosTest {
 
         Task[] result = todos.search("молоко");
 
-        // Проверяем, что массив пустой
-        Assertions.assertEquals(0, result.length);
+        // ✅ Сравниваем с пустым массивом целиком
+        Task[] expected = {};
+        Assertions.assertArrayEquals(expected, result);
     }
 }
